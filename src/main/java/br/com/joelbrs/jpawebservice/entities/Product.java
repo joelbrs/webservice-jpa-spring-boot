@@ -73,7 +73,13 @@ public class Product {
     }
 
     public Set<Category> getCategories() {
-        return categories;
+        return Collections.unmodifiableSet(categories);
+    }
+
+    public void addCategory(Category category) {
+        if (category != null) {
+            categories.add(category);
+        }
     }
 
     @Override

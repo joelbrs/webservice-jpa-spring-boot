@@ -42,7 +42,13 @@ public class Category {
     }
 
     public Set<Product> getProducts() {
-        return products;
+        return Collections.unmodifiableSet(products);
+    }
+
+    public void addProduct(Product product) {
+        if (product != null) {
+            products.add(product);
+        }
     }
 
     @Override
