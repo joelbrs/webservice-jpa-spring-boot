@@ -1,14 +1,8 @@
 package br.com.joelbrs.jpawebservice.config;
 
-import br.com.joelbrs.jpawebservice.entities.Category;
-import br.com.joelbrs.jpawebservice.entities.Order;
-import br.com.joelbrs.jpawebservice.entities.Product;
-import br.com.joelbrs.jpawebservice.entities.User;
+import br.com.joelbrs.jpawebservice.entities.*;
 import br.com.joelbrs.jpawebservice.enums.OrderStatus;
-import br.com.joelbrs.jpawebservice.repositories.CategoryRepository;
-import br.com.joelbrs.jpawebservice.repositories.OrderRepository;
-import br.com.joelbrs.jpawebservice.repositories.ProductRepository;
-import br.com.joelbrs.jpawebservice.repositories.UserRepository;
+import br.com.joelbrs.jpawebservice.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -67,5 +64,12 @@ public class TestConfig implements CommandLineRunner {
         p5.addCategory(cat2);
 
         productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
     }
 }
