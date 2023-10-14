@@ -2,6 +2,7 @@ package br.com.joelbrs.jpawebservice.services;
 
 import br.com.joelbrs.jpawebservice.entities.User;
 import br.com.joelbrs.jpawebservice.repositories.UserRepository;
+import br.com.joelbrs.jpawebservice.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +23,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User findById(Long id) {
-        Optional<User> user = repository.findById(id);
-
-        return user.get();
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {

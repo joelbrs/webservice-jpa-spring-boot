@@ -2,6 +2,7 @@ package br.com.joelbrs.jpawebservice.services;
 
 import br.com.joelbrs.jpawebservice.entities.Order;
 import br.com.joelbrs.jpawebservice.repositories.OrderRepository;
+import br.com.joelbrs.jpawebservice.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,6 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public Order findById(Long id) {
-        Optional<Order> order = repository.findById(id);
-
-        return order.get();
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 }
