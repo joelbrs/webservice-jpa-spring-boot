@@ -3,7 +3,6 @@ package br.com.joelbrs.jpawebservice.entities;
 import br.com.joelbrs.jpawebservice.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -91,10 +90,8 @@ public class Order implements Serializable {
         this.payment = payment;
     }
 
-    public void addItems(OrderItem item) {
-        if (item != null) {
-            items.add(item);
-        }
+    public Double getTotal() {
+        return items.stream().mapToDouble(OrderItem::getSubTotal).sum();
     }
 
     @Override
