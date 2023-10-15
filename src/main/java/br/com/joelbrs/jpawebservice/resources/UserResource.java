@@ -1,5 +1,7 @@
 package br.com.joelbrs.jpawebservice.resources;
 
+import br.com.joelbrs.jpawebservice.dtos.UserDTO;
+import br.com.joelbrs.jpawebservice.dtos.UserInsertDTO;
 import br.com.joelbrs.jpawebservice.entities.User;
 import br.com.joelbrs.jpawebservice.services.UserService;
 
@@ -19,24 +21,24 @@ public class UserResource {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        List<User> users = service.findAll();
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<UserDTO> users = service.findAll();
 
         return ResponseEntity.ok().body(users);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
-        User user = service.findById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        UserDTO user = service.findById(id);
 
         return ResponseEntity.ok().body(user);
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody User obj) {
-        obj = service.insert(obj);
+    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO obj) {
+        UserDTO dto = service.insert(obj);
 
-        return ResponseEntity.ok().body(obj);
+        return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -47,8 +49,8 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
-        User user = service.update(id, obj);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody User obj) {
+        UserDTO user = service.update(id, obj);
 
         return ResponseEntity.ok().body(user);
     }
