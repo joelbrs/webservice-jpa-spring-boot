@@ -1,47 +1,41 @@
-package br.com.joelbrs.jpawebservice.entities;
+package br.com.joelbrs.jpawebservice.dtos;
 
+import br.com.joelbrs.jpawebservice.entities.Order;
+import br.com.joelbrs.jpawebservice.entities.OrderItem;
+import br.com.joelbrs.jpawebservice.entities.Payment;
+import br.com.joelbrs.jpawebservice.entities.User;
 import br.com.joelbrs.jpawebservice.enums.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name = "tb_order")
-public class Order implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderDTO implements Serializable {
     private Long id;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "GMT")
     private Instant moment;
-
     private Long orderStatus;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id")
     private User client;
-
-    @OneToMany(mappedBy = "id.order")
-    private final Set<OrderItem> items = new HashSet<>();
-
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Set<OrderItem> items = new HashSet<>();
     private Payment payment;
 
-    public Order() {}
+    public OrderDTO() {}
 
-    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
+    public OrderDTO(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
         this.moment = moment;
         setOrderStatus(orderStatus);
         this.client = client;
+    }
+
+    public OrderDTO(Order order) {
+        setItems(order.getItems());
+        setClient(order.getClient());
+        setId(order.getId());
+        setMoment(order.getMoment());
+        setOrderStatus(order.getOrderStatus());
+        setPayment(order.getPayment());
     }
 
     public Long getId() {
@@ -77,9 +71,11 @@ public class Order implements Serializable {
             this.orderStatus = orderStatus.getCode();
         }
     }
-
     public Set<OrderItem> getItems() {
         return Collections.unmodifiableSet(items);
+    }
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     public Payment getPayment() {
@@ -94,16 +90,4 @@ public class Order implements Serializable {
         return items.stream().mapToDouble(OrderItem::getSubTotal).sum();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

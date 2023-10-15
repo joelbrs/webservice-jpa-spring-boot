@@ -1,6 +1,6 @@
 package br.com.joelbrs.jpawebservice.resources;
 
-import br.com.joelbrs.jpawebservice.entities.Product;
+import br.com.joelbrs.jpawebservice.dtos.ProductDTO;
 import br.com.joelbrs.jpawebservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +19,15 @@ public class ProductResource {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll() {
-        List<Product> products = service.findAll();
+    public ResponseEntity<List<ProductDTO>> findAll() {
+        List<ProductDTO> products = service.findAll();
 
         return ResponseEntity.ok().body(products);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
-        Product product = service.findBydId(id);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+        ProductDTO product = service.findBydId(id);
 
         return ResponseEntity.ok().body(product);
     }

@@ -1,5 +1,6 @@
 package br.com.joelbrs.jpawebservice.resources;
 
+import br.com.joelbrs.jpawebservice.dtos.OrderDTO;
 import br.com.joelbrs.jpawebservice.entities.Order;
 import br.com.joelbrs.jpawebservice.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,15 @@ public class OrderResource {
     private OrderService service;
 
     @GetMapping
-    public ResponseEntity<List<Order>> findAll() {
-        List<Order> orders = service.findAll();
+    public ResponseEntity<List<OrderDTO>> findAll() {
+        List<OrderDTO> orders = service.findAll();
 
         return ResponseEntity.ok().body(orders);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Order> findById(@PathVariable Long id) {
-        Order order = service.findById(id);
+    public ResponseEntity<OrderDTO> findById(@PathVariable Long id) {
+        OrderDTO order = service.findById(id);
 
         return ResponseEntity.ok().body(order);
     }

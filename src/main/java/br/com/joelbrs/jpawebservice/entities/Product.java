@@ -2,7 +2,6 @@ package br.com.joelbrs.jpawebservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -20,10 +19,10 @@ public class Product {
 
     @ManyToMany
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories = new HashSet<>();
+    private final Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "id.product")
-    private Set<OrderItem> orders = new HashSet<>();
+    private final Set<OrderItem> orders = new HashSet<>();
 
     public Product() {}
 
