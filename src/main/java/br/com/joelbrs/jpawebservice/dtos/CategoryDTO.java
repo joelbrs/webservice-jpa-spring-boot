@@ -16,6 +16,8 @@ public class CategoryDTO implements Serializable {
     }
 
     public CategoryDTO(Category category) {
+        setId(category.getId());
+        setName(category.getName());
     }
 
     public Long getId() {
