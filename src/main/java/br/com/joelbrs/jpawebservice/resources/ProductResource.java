@@ -2,7 +2,6 @@ package br.com.joelbrs.jpawebservice.resources;
 
 import br.com.joelbrs.jpawebservice.dtos.ProductDTO;
 import br.com.joelbrs.jpawebservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "products")
 public class ProductResource {
+    private final ProductService service;
 
-    @Autowired
-    private ProductService service;
+    public ProductResource(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAll() {

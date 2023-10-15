@@ -4,19 +4,20 @@ import br.com.joelbrs.jpawebservice.dtos.CategoryDTO;
 import br.com.joelbrs.jpawebservice.entities.Category;
 import br.com.joelbrs.jpawebservice.repositories.CategoryRepository;
 import br.com.joelbrs.jpawebservice.services.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository respository;
+    private final CategoryRepository respository;
+
+    public CategoryService(CategoryRepository respository) {
+        this.respository = respository;
+    }
 
     @Transactional(readOnly = true)
     public List<CategoryDTO> findAll() {

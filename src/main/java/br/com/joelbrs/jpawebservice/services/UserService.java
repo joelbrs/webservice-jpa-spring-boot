@@ -5,19 +5,20 @@ import br.com.joelbrs.jpawebservice.dtos.UserInsertDTO;
 import br.com.joelbrs.jpawebservice.entities.User;
 import br.com.joelbrs.jpawebservice.repositories.UserRepository;
 import br.com.joelbrs.jpawebservice.services.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Transactional(readOnly = true)
     public List<UserDTO> findAll() {

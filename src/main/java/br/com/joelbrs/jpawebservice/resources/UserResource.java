@@ -5,9 +5,6 @@ import br.com.joelbrs.jpawebservice.dtos.UserInsertDTO;
 import br.com.joelbrs.jpawebservice.entities.User;
 import br.com.joelbrs.jpawebservice.services.UserService;
 
-import jakarta.websocket.server.PathParam;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +14,11 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserResource {
 
-    @Autowired
-    private UserService service;
+    private final UserService service;
+
+    public UserResource(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {

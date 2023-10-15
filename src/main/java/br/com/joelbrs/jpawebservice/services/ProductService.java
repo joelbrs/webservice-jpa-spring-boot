@@ -4,7 +4,6 @@ import br.com.joelbrs.jpawebservice.dtos.ProductDTO;
 import br.com.joelbrs.jpawebservice.entities.Product;
 import br.com.joelbrs.jpawebservice.repositories.ProductRepository;
 import br.com.joelbrs.jpawebservice.services.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository repository;
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
 
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll() {
