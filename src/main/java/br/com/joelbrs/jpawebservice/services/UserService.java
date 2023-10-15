@@ -33,6 +33,7 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    @Transactional
     public UserDTO insert(UserInsertDTO dto) {
         User user = new User(null, dto.getName(), dto.getEmail(), dto.getPhone(), dto.getPassword());
         user = repository.save(user);
@@ -40,16 +41,17 @@ public class UserService {
         return new UserDTO(user);
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
-    }
-
+    @Transactional
     public UserDTO update(Long id, User obj) {
         User entity = repository.getReferenceById(id);
 
         updateData(entity, obj);
         entity = repository.save(entity);
         return new UserDTO(entity);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     private void updateData(User entity, User obj) {
