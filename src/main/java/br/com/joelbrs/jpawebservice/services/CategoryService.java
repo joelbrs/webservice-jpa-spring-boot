@@ -1,5 +1,6 @@
 package br.com.joelbrs.jpawebservice.services;
 
+import br.com.joelbrs.jpawebservice.dtos.CategoryDTO;
 import br.com.joelbrs.jpawebservice.entities.Category;
 import br.com.joelbrs.jpawebservice.repositories.CategoryRepository;
 import br.com.joelbrs.jpawebservice.services.exceptions.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -17,13 +19,16 @@ public class CategoryService {
     private CategoryRepository respository;
 
     @Transactional(readOnly = true)
-    public List<Category> findAll() {
-        return respository.findAll();
+    public List<CategoryDTO> findAll() {
+        List<Category> categories = respository.findAll();
+
+        return categories.stream().map(CategoryDTO::new).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Category findById(Long id) {
+    public CategoryDTO findById(Long id) {
+        Category category = respository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
-        return respository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return new CategoryDTO(category);
     }
 }

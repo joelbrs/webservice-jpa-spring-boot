@@ -1,5 +1,6 @@
 package br.com.joelbrs.jpawebservice.resources;
 
+import br.com.joelbrs.jpawebservice.dtos.CategoryDTO;
 import br.com.joelbrs.jpawebservice.entities.Category;
 import br.com.joelbrs.jpawebservice.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,15 @@ public class CategoryResource {
     private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = service.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> categories = service.findAll();
 
         return ResponseEntity.ok().body(categories);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id) {
-        Category category = service.findById(id);
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+        CategoryDTO category = service.findById(id);
 
         return ResponseEntity.ok().body(category);
     }
